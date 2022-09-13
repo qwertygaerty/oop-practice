@@ -1,8 +1,10 @@
 from django.db.models.functions import Lower
+from django.http import Http404
 from django.shortcuts import render
-
 from .models import Book, Author, BookInstance, Genre
+from django.views import generic
 
+pagination_count = 3
 
 def index(request):
     """View function for home page of site."""
@@ -33,22 +35,45 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
-
-from django.views import generic
-
-
 class BookListView(generic.ListView):
     model = Book
-    context_object_name = 'book_list'  # your own name for the list as a template variable
+    paginate_by = pagination_count
 
-    def get_queryset(self):
-        return Book.objects.filter(title__icontains='war')[:5]  # Get 5
+class BookDetailView(generic.DetailView):
+    model = Book
 
-    template_name = 'books/my_arbitrary_template_name_list.html'  # Specify your own template name/location
+    def book_detail_view(request, pk):
+        try:
+            book_id = Book.objects.get(pk=pk)
+        except Book.DoesNotExist:
+            raise Http404("Book does not exist")
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get the context
-        context = super(BookListView, self).get_context_data(**kwargs)
-        # Create any data and add it to the context
-        context['some_data'] = 'This is just some data'
-        return context
+        # book_id=get_object_or_404(Book, pk=pk)
+
+        return render(
+            request,
+            'catalog/book_detail.html',
+            context={'book': book_id, }
+        )
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = pagination_count
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+
+    def author_detail_view(request, pk):
+        try:
+            author_id = Author.objects.get(pk=pk)
+        except Author.DoesNotExist:
+            raise Http404("Author does not exist")
+
+        # book_id=get_object_or_404(Book, pk=pk)
+
+        return render(
+            request,
+            'catalog/author_detail.html',
+            context={'author': author_id, }
+        )
