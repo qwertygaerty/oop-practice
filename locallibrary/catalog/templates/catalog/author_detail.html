@@ -8,7 +8,7 @@
 
     {% for copy in author.book_set.all %}
     <hr>
-    <p>{{copy}}</p>
+     <a href="{{ copy.get_absolute_url }}">{{ copy.title }}</a>
     {% endfor %}
   </div>
 {% endblock %}

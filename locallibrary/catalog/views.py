@@ -6,6 +6,7 @@ from django.views import generic
 
 pagination_count = 3
 
+
 def index(request):
     """View function for home page of site."""
 
@@ -23,6 +24,9 @@ def index(request):
 
     num_hobbit_book = Book.objects.filter(title__icontains='hobbit').count()
 
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -30,14 +34,17 @@ def index(request):
         'num_authors': num_authors,
         'num_fantazy_genre': num_fantazy_genre,
         'num_hobbit_book': num_hobbit_book,
+        'num_visits': num_visits,
     }
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
+
 class BookListView(generic.ListView):
     model = Book
     paginate_by = pagination_count
+
 
 class BookDetailView(generic.DetailView):
     model = Book
@@ -60,6 +67,7 @@ class BookDetailView(generic.DetailView):
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = pagination_count
+
 
 class AuthorDetailView(generic.DetailView):
     model = Author
