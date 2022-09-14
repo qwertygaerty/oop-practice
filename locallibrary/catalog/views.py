@@ -100,3 +100,8 @@ class LoanedBooksByLibrarianListView(LoginRequiredMixin, generic.ListView):
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_librarian.html'
     paginate_by = 10
+
+    @login_required
+    @permission_required('catalog.can_mark_returned', raise_exception=True)
+    def get_queryset(self):
+        return BookInstance.objects.all()
