@@ -31,7 +31,7 @@
                 {% endif %}
 
             </ul>
-            {% if user.is_authenticated %}
+            {% if user.is_staff %}
             <p>Staff</p>
             <a href="{% url 'librarian-borrowed' %}">All Borrowed</a>
             {% endif %}

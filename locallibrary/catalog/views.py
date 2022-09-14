@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import render
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -96,12 +96,8 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
 
-class LoanedBooksByLibrarianListView(LoginRequiredMixin, generic.ListView):
+class LoanedBooksByLibrarianListView(PermissionRequiredMixin, generic.ListView):
+    permission_required = 'catalog.can_mark_returned'
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_librarian.html'
     paginate_by = 10
-
-    @login_required
-    @permission_required('catalog.can_mark_returned', raise_exception=True)
-    def get_queryset(self):
-        return BookInstance.objects.all()
