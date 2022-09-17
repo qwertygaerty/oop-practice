@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3 style="text-align: justify;"><span style="color: #ffff99;"><em>Выберете марку</em></span></h3>
+
+{% for brand in brands %}
+
+<div class="brand">
+    <a href="">{{brand.title}}</a>
+    <img src="{{  brand.logo }}" alt="">
+</div>
+
+{% endfor %}
+{% endblock %}
+
