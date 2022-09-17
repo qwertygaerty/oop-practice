@@ -6,7 +6,7 @@
 
 <div class="brand">
     <a href="{% url 'mailfunction' %}">{{brand.title}}</a>
-    <img src="{{ request.scheme }}://{{ request.get_host }}/{{brand.logo}}" alt="">
+    <img src="{{ request.scheme }}://{{ request.get_host }}/{{brand.logo}}" alt="" style="width: 400px">
 </div>
 
 {% endfor %}
