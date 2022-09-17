@@ -5,8 +5,8 @@
 {% for brand in brands %}
 
 <div class="brand">
-    <a href="">{{brand.title}}</a>
-    <img src="{{  brand.logo }}" alt="">
+    <a href="{% url 'mailfunction' %}">{{brand.title}}</a>
+    <img src="{{ request.scheme }}://{{ request.get_host }}/{{brand.logo}}" alt="">
 </div>
 
 {% endfor %}

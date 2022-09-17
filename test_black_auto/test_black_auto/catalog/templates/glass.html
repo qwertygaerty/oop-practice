@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<h3>Выберете стекло</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; justify-content: center;">
+    {% for g in glass %}
+    <div style="width: 40%;">
+        <h3>{{g.name}}</h3>
+        <div style="width: 100%; display: flex; flex-direction: column; justify-content: space-between">
+            <h4>Тип</h4>
+            <h5>{{g.get_types}}</h5>
+            <p>Модель авто</p>
+            <p>{{g.get_car_models}}</p>
+            <p>Страна</p>
+            <p>{{g.country}}</p>
+        </div>
+
+    </div>
+
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<h3>Выберете область</h3>
+
+{% for mail in mailfunction %}
+
+<a href="{% url 'glass' %}">{{mail.name}}</a>
+
+{% endfor %}
+
+{% endblock %}

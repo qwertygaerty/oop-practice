@@ -17,11 +17,22 @@ def index(request):
 
 def malfunction(request):
     """View function for home page of site."""
-    mailfunctions = Malfunction.objects.all()
+    mailfunction = Malfunction.objects.all()
 
     context = {
-        'mailfunctions': mailfunctions,
+        'mailfunction': mailfunction,
     }
 
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'mailfunctions.html', context=context)
+    return render(request, 'mailfunction.html', context=context)
+
+def glass(request):
+    """View function for home page of site."""
+    glass = Glass.objects.all()
+
+    context = {
+        'glass': glass,
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'glass.html', context=context)
