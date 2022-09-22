@@ -1,21 +1,29 @@
 from rest_framework.exceptions import APIException
+from rest_framework.response import Response
 
 
-class AuthenticationFailed(APIException):
-    code = 401
-    warning: 'Authentication failed'
+class NogtiAPIException(APIException):
+
+    def __init__(self, message=None, code=None):
+        self.status_code = code
+        response = {
+            'error': {
+                'code': code,
+                'message': message
+            }
+        }
+        self.detail = response
 
 
-class ForbiddenForYou(APIException):
-    code = 403
-    warning: 'Forbidden for you'
+class ValidationAPIException(APIException):
 
-
-class OrderIsProcessed:
-    code = 201
-    message = 'Order is processed'
-
-
-class CartIsEmpty:
-    code = 422
-    message = '"Cart is empty'
+    def __init__(self, message=None, code=None, errors=None):
+        self.status_code = code
+        response = {
+            'error': {
+                'code': code,
+                'message': message,
+                'errors': errors
+            }
+        }
+        self.detail = response
