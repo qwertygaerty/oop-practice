@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
-from authcore.models import User
-from authcore.serializers import EmailSerializer, SignUpSerializer
+from authcore.models import User, Service
+from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer
 
 
 class HelloView(APIView):
@@ -36,9 +36,7 @@ def login(request):
     user.save()
 
     response = {
-        'data': {
-            'user_token': user.api_token,
-        }
+        'token': user.api_token,
     }
     return Response(response, status=status.HTTP_200_OK)
 
@@ -56,9 +54,17 @@ def signup(request):
     user.save()
 
     response = {
-        'data': {
-            'user_token': user.api_token,
-        }
+        'token': user.api_token,
     }
 
+    return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def service(request):
+    queryset = Service.objects.all()
+
+    response = {
+        'items': ServiceSerializer(queryset,  many=True).data
+    }
     return Response(response, status=status.HTTP_200_OK)

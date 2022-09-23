@@ -27,3 +27,9 @@ class User(models.Model):
 
     class Meta:
         db_table = 'users'
+
+
+class Service(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    price = models.FloatField(max_length=255)
