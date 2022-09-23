@@ -4,11 +4,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .permissions import IsAuthenticated
+from .permissions import IsAuthenticated, IsAdmin
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
 from authcore.models import User, Service, Cart, Order
-from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer, OrderSerializer
+from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer, OrderSerializer, AdminServiceSerializer
 
 
 class HelloView(APIView):
@@ -69,6 +69,56 @@ def service(request):
         'items': ServiceSerializer(queryset, many=True).data
     }
     return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes((IsAdmin,))
+def admin_service(request):
+    serializer = ServiceSerializer(data=request.data)
+    if not serializer.is_valid():
+        raise ValidationAPIException(message='Validation error',
+                                     code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                                     errors=serializer.errors)
+
+    serv = Service.objects.create(**request.data)
+    serv.save()
+
+    response = {
+        "id": serv.id,
+        "message": "Service added",
+    }
+
+    return Response(response, status=status.HTTP_201_CREATED)
+
+
+@api_view(['DELETE', 'GET', 'PATCH'])
+@permission_classes((IsAdmin,))
+def admin_service_delete(request, pk=None):
+    if request.method == 'DELETE':
+
+        serv = Service.objects.filter(id=pk).first()
+        serv.delete()
+
+        response = {
+            "message": "Service removed"
+        }
+
+        return Response(response, status=status.HTTP_200_OK)
+    if request.method == 'PATCH':
+        serializer = AdminServiceSerializer(data=request.data)
+        if not serializer.is_valid():
+            raise ValidationAPIException(message='Validation error',
+                                         code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                                         errors=serializer.errors)
+        serv = Service.objects.filter(id=pk)
+        serv.update(**serializer.data)
+
+        response = {
+            "items": AdminServiceSerializer(serv, many=True).data
+        }
+
+        return Response(response, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST', 'DELETE'])
@@ -166,4 +216,3 @@ def logout_user(request):
         "message": "logout"
     }
     return Response(response, status=status.HTTP_200_OK)
-
