@@ -7,7 +7,7 @@ from .permissions import IsAuthenticated
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
 from authcore.models import User, Service, Cart
-from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer
+from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer
 
 
 class HelloView(APIView):
@@ -88,4 +88,15 @@ def cart_add(request, pk=None):
         "message": "Service add to card",
     }
 
+    return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def cart_get(request):
+    queryset = Cart.objects.filter(user=User.get_auth_user(request))
+
+    response = {
+        'items': CartSerializer(queryset, many=True).data
+    }
     return Response(response, status=status.HTTP_200_OK)
