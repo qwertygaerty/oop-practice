@@ -6,4 +6,5 @@ urlpatterns = [
    path('login/', views.login),
    path('signup/', views.signup),
    path('services/', views.service),
+   path('cart/<int:pk>/', views.cart_add),
 ]

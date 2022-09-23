@@ -65,6 +65,15 @@ def service(request):
     queryset = Service.objects.all()
 
     response = {
-        'items': ServiceSerializer(queryset,  many=True).data
+        'items': ServiceSerializer(queryset, many=True).data
     }
+    return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def cart_add(request, pk=None):
+    response = {
+        "num": pk,
+    }
+
     return Response(response, status=status.HTTP_200_OK)

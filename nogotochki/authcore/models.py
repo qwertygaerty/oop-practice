@@ -33,3 +33,8 @@ class Service(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     price = models.FloatField(max_length=255)
+
+
+class Cart(models.Model):
+    items = models.ManyToManyField(Service, related_name='services')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
