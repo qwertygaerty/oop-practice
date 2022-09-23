@@ -1,12 +1,12 @@
 from django.utils.crypto import get_random_string
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAuthenticated
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
-from authcore.models import User, Service
+from authcore.models import User, Service, Cart
 from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer
 
 
@@ -71,9 +71,21 @@ def service(request):
 
 
 @api_view(['POST'])
+@permission_classes((IsAuthenticated,))
 def cart_add(request, pk=None):
+    serv = Service.objects.get(id=pk)
+
+    if not serv:
+        raise ValidationAPIException(message='Not Found', code=status.HTTP_422_UNPROCESSABLE_ENTITY, )
+
+    us = User.get_auth_user(request)
+
+    cart = Cart.objects.create(user=us)
+    cart.items.add(serv)
+    cart.save()
+
     response = {
-        "num": pk,
+        "message": "Service add to card",
     }
 
     return Response(response, status=status.HTTP_200_OK)

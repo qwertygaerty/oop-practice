@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="850e3994-be8b-48fa-b326-cb2064c3bfdb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nogotochki/authcore/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/nogotochki/authcore/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nogotochki/authcore/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/nogotochki/authcore/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nogotochki/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/nogotochki/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nogotochki/authcore/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/nogotochki/authcore/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +34,7 @@
       <option name="presentableId" value="Default" />
       <updated>1663844439027</updated>
       <workItem from="1663844440220" duration="1322000" />
-      <workItem from="1663845782054" duration="6530000" />
+      <workItem from="1663845782054" duration="7181000" />
     </task>
     <servers />
   </component>
