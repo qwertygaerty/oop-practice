@@ -14,7 +14,7 @@ class User(models.Model):
     fio = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255)
-    api_token = models.CharField(max_length=255)
+    api_token = models.CharField(max_length=255, null=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, default='client', to_field='code', unique=False)
 
     @classmethod

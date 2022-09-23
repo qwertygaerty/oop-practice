@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.utils.crypto import get_random_string
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -93,7 +94,7 @@ def cart_toggle(request, pk=None):
             "message": "Service add to card",
         }
 
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(response, status=status.HTTP_201_CREATED)
     if request.method == 'DELETE':
         cart = Cart.objects.filter(user=us).first()
         cart.items.remove(serv)
@@ -144,6 +145,7 @@ def order(request):
             "order_id": ord.id,
             "message": "Order is processed"
         }
+        return Response(response, status=status.HTTP_201_CREATED)
 
     if request.method == 'GET':
         response = {
@@ -151,3 +153,17 @@ def order(request):
         }
 
     return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def logout_user(request):
+    us = User.get_auth_user(request)
+    us.api_token = None
+    us.save()
+
+    response = {
+        "message": "logout"
+    }
+    return Response(response, status=status.HTTP_200_OK)
+
