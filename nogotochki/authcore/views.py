@@ -70,25 +70,39 @@ def service(request):
     return Response(response, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 @permission_classes((IsAuthenticated,))
-def cart_add(request, pk=None):
+def cart_toggle(request, pk=None):
+    us = User.get_auth_user(request)
     serv = Service.objects.get(id=pk)
 
-    if not serv:
-        raise ValidationAPIException(message='Not Found', code=status.HTTP_422_UNPROCESSABLE_ENTITY, )
+    if request.method == 'POST':
 
-    us = User.get_auth_user(request)
+        if not serv:
+            raise ValidationAPIException(message='Not Found', code=status.HTTP_422_UNPROCESSABLE_ENTITY, )
 
-    cart = Cart.objects.create(user=us)
-    cart.items.add(serv)
-    cart.save()
+        cart = Cart.objects.filter(user=us).first()
 
-    response = {
-        "message": "Service add to card",
-    }
+        if not cart:
+            cart = Cart.objects.create(user=us)
 
-    return Response(response, status=status.HTTP_200_OK)
+        cart.items.add(serv)
+        cart.save()
+
+        response = {
+            "message": "Service add to card",
+        }
+
+        return Response(response, status=status.HTTP_200_OK)
+    if request.method == 'DELETE':
+        cart = Cart.objects.filter(user=us).first()
+        cart.items.remove(serv)
+
+        response = {
+            "message": " Item removed from cart",
+        }
+
+        return Response(response, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -96,7 +110,11 @@ def cart_add(request, pk=None):
 def cart_get(request):
     queryset = Cart.objects.filter(user=User.get_auth_user(request))
 
-    response = {
-        'items': CartSerializer(queryset, many=True).data
-    }
+    services = []
+
+    for q in queryset:
+        services.append(q.get_services())
+
+    response = CartSerializer(queryset, many=True).data[0]
+
     return Response(response, status=status.HTTP_200_OK)

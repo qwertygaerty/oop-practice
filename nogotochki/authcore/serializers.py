@@ -34,6 +34,9 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
+
+    items = ServiceSerializer(read_only=True, many=True)
+
     class Meta:
         model = Cart
         fields = ['items', 'user', ]

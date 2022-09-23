@@ -15,7 +15,7 @@ class User(models.Model):
     email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255)
     api_token = models.CharField(max_length=255)
-    role = models.OneToOneField(Role, on_delete=models.CASCADE, default='client', to_field='code', unique=False)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, default='client', to_field='code', unique=False)
 
     @classmethod
     def get_auth_user(cls, request=None):
@@ -38,3 +38,8 @@ class Service(models.Model):
 class Cart(models.Model):
     items = models.ManyToManyField(Service, related_name='services')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+
+    @classmethod
+    def get_services(cls):
+        return cls.items
+
