@@ -8,4 +8,5 @@ urlpatterns = [
    path('services/', views.service),
    path('cart/<int:pk>/', views.cart_toggle),
    path('cart/', views.cart_get),
+   path('order/', views.order),
 ]

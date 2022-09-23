@@ -1,7 +1,7 @@
 from django.forms import CharField
 from rest_framework import generics, serializers
 
-from .models import User, Service, Cart
+from .models import User, Service, Cart, Order
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -40,3 +40,10 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['items', 'user', ]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = ['id', 'services', 'order_price']

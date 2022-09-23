@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from .permissions import IsAuthenticated
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
-from authcore.models import User, Service, Cart
-from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer
+from authcore.models import User, Service, Cart, Order
+from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer, OrderSerializer
 
 
 class HelloView(APIView):
@@ -116,5 +116,38 @@ def cart_get(request):
         services.append(q.get_services())
 
     response = CartSerializer(queryset, many=True).data[0]
+
+    return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['POST', 'GET'])
+@permission_classes((IsAuthenticated,))
+def order(request):
+    response = {}
+    us = User.get_auth_user(request)
+    cart = Cart.objects.get(user=us)
+
+    if request.method == 'POST':
+
+        if len(cart.get_ids()) == 0:
+            raise NogtiAPIException(message='Cart is empty',
+                                    code=status.HTTP_422_UNPROCESSABLE_ENTITY, )
+
+        order_price = cart.get_price()
+        ord = Order.objects.create(services=cart.get_ids(), order_price=123, cart=cart)
+        ord.order_price = order_price
+        ord.save()
+
+        cart.items.clear()
+
+        response = {
+            "order_id": ord.id,
+            "message": "Order is processed"
+        }
+
+    if request.method == 'GET':
+        response = {
+            "items": OrderSerializer(Order.objects.filter(cart__user=us), many=True).data
+        }
 
     return Response(response, status=status.HTTP_200_OK)

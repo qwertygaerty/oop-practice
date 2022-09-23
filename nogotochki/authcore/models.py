@@ -43,3 +43,27 @@ class Cart(models.Model):
     def get_services(cls):
         return cls.items
 
+    def get_price(self):
+        price = 0
+        for item in self.items.all():
+            price += item.price
+        return price
+
+    def get_ids(self):
+        ids = []
+        for item in self.items.all():
+            ids.append(item.id)
+        return ids
+
+
+class Order(models.Model):
+    services = models.CharField(max_length=255)
+    order_price = models.FloatField(max_length=255)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart')
+
+    @classmethod
+    def get_price(cls, services):
+        price = 0
+        for item in services.all():
+            price += item.get_price()
+        return price
