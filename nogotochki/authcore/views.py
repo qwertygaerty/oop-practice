@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
 from authcore.models import User
-from authcore.serializers import EmailSerializer
+from authcore.serializers import EmailSerializer, SignUpSerializer
 
 
 class HelloView(APIView):
@@ -43,5 +43,22 @@ def login(request):
     return Response(response, status=status.HTTP_200_OK)
 
 
-def signup():
-    pass
+@api_view(['POST'])
+def signup(request):
+    serializer = SignUpSerializer(data=request.data)
+    if not serializer.is_valid():
+        raise ValidationAPIException(message='Validation error',
+                                     code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                                     errors=serializer.errors)
+
+    user = User.objects.create(**request.data)
+    user.api_token = get_random_string(length=32)
+    user.save()
+
+    response = {
+        'data': {
+            'user_token': user.api_token,
+        }
+    }
+
+    return Response(response, status=status.HTTP_200_OK)

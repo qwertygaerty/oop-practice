@@ -11,3 +11,13 @@ class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'password']
+
+
+class SignUpSerializer(serializers.ModelSerializer):
+    fio = CharField(required=True)
+    email = CharField(required=True)
+    password = CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['fio', 'email', 'password']

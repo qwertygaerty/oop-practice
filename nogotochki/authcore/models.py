@@ -4,7 +4,7 @@ from rest_framework.authentication import get_authorization_header
 
 class Role(models.Model):
     name = models.CharField(max_length=100, blank=False)
-    code = models.CharField(max_length=50, blank=False)
+    code = models.CharField(max_length=50, blank=False, unique=True)
 
     class Meta:
         db_table = 'roles'
@@ -15,7 +15,7 @@ class User(models.Model):
     email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255)
     api_token = models.CharField(max_length=255)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.OneToOneField(Role, on_delete=models.CASCADE, default='client', to_field='code', unique=False)
 
     @classmethod
     def get_auth_user(cls, request=None):
