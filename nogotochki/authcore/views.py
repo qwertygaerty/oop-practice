@@ -8,8 +8,12 @@ from .permissions import IsAuthenticated, IsAdmin
 
 from authcore.exceptions import ValidationAPIException, NogtiAPIException
 from authcore.models import User, Service, Cart, Order
+<<<<<<< HEAD
 from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer, OrderSerializer, \
     AdminServiceSerializer
+=======
+from authcore.serializers import EmailSerializer, SignUpSerializer, ServiceSerializer, CartSerializer, OrderSerializer, AdminServiceSerializer
+>>>>>>> 4688fb84fdc2db1da9888bdcaf9b9d2a1ed688f3
 
 
 class HelloView(APIView):
@@ -96,6 +100,10 @@ def admin_service(request):
 @permission_classes((IsAdmin,))
 def admin_service_delete(request, pk=None):
     if request.method == 'DELETE':
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4688fb84fdc2db1da9888bdcaf9b9d2a1ed688f3
         serv = Service.objects.filter(id=pk).first()
         serv.delete()
 
@@ -120,6 +128,10 @@ def admin_service_delete(request, pk=None):
         return Response(response, status=status.HTTP_200_OK)
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4688fb84fdc2db1da9888bdcaf9b9d2a1ed688f3
 @api_view(['POST', 'DELETE'])
 @permission_classes((IsAuthenticated,))
 def cart_toggle(request, pk=None):
@@ -149,7 +161,11 @@ def cart_toggle(request, pk=None):
         cart.items.remove(serv)
 
         response = {
+<<<<<<< HEAD
             "message": "Item removed from cart",
+=======
+            "message": " Item removed from cart",
+>>>>>>> 4688fb84fdc2db1da9888bdcaf9b9d2a1ed688f3
         }
 
         return Response(response, status=status.HTTP_200_OK)

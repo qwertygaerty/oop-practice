@@ -50,7 +50,11 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
+<<<<<<< HEAD
         fields = ['items']
+=======
+        fields = ['items', 'user', ]
+>>>>>>> 4688fb84fdc2db1da9888bdcaf9b9d2a1ed688f3
 
 
 class OrderSerializer(serializers.ModelSerializer):
