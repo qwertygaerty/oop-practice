@@ -336,67 +336,6 @@
 					"response": []
 				},
 				{
-					"name": "service_delete",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('responce json', ()=>{\r",
-									"    pm.response.to.be.json;\r",
-									"})\r",
-									"\r",
-									"pm.test(\"logout Correct status\", ()=> {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"var scheme = {\r",
-									"    \"type\": \"object\",\r",
-									"    \"required\": [\"message\"],\r",
-									"    \"properties\": {\r",
-									"        \"message\": {\"type\": \"string\"},\r",
-									"    }\r",
-									"};\r",
-									"\r",
-									"pm.test('service_delete Correct body', function() {\r",
-									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
-									"    pm.expect(isValidScheme).to.be.true;\r",
-									"    pm.expect(pm.response.json().message).to.equal(\"Service removed\");\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{admin_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/service/1/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"service",
-								"1",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "service_add",
 					"event": [
 						{
@@ -467,6 +406,145 @@
 							],
 							"path": [
 								"service",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "service_add Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"id\", \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\"type\": \"number\"},\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('service_add Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"     pm.expect(pm.response.json().message).to.equal(\"Service added\");\r",
+									"});\r",
+									"\r",
+									"try {\r",
+									"   pm.collectionVariables.set('service_id', pm.response.json().id) \r",
+									"   pm.collectionVariables.set('service_delete_id', pm.response.json().id-1) \r",
+									"   console.log( pm.collectionVariables.get('service_id'))\r",
+									"} catch (e) {\r",
+									"    console.log(e)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Новая услуга\",\r\n    \"description\": \"новое описание\",\r\n    \"price\": 1234\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/service/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"service",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "service_delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('service_delete Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"    pm.expect(pm.response.json().message).to.equal(\"Service removed\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/service/{{service_delete_id}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"service",
+								"{{service_delete_id}}",
 								""
 							]
 						}
@@ -603,6 +681,68 @@
 							"path": [
 								"cart",
 								"{{service_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart_add Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('cart_add Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"     pm.expect(pm.response.json().message).to.equal(\"Service add to card\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cart/2/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart",
+								"2",
 								""
 							]
 						}
@@ -815,8 +955,8 @@
 									"    \"type\": \"object\",\r",
 									"    \"required\": [ \"order_id\", \"message\"],\r",
 									"    \"properties\": {\r",
-									"        \"message\": {\"type\": \"string\"},\r",
 									"        \"order_id\": {\"type\": \"number\"},\r",
+									"        \"message\": {\"type\": \"string\"},\r",
 									"    }\r",
 									"};\r",
 									"\r",
@@ -899,6 +1039,11 @@
 		},
 		{
 			"key": "service_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "service_delete_id",
 			"value": "",
 			"type": "string"
 		}
