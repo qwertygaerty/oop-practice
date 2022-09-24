@@ -1,0 +1,906 @@
+{
+	"info": {
+		"_postman_id": "2881b4df-b820-4795-8d8f-d6f5712d6969",
+		"name": "oop-nogotochki",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17684321"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signup_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"login Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"token\"],\r",
+									"    \"properties\": {\r",
+									"        \"token\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('signup Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									"\r",
+									"try {\r",
+									"   pm.collectionVariables.set('user_token', pm.response.json().token) \r",
+									"   console.log( pm.collectionVariables.get('user_token'))\r",
+									"} catch (e) {\r",
+									"    console.log(e)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fio\": \"user\",\r\n    \"email\": \"user@nogotochki.ru\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/signup/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"signup",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"login Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"token\"],\r",
+									"    \"properties\": {\r",
+									"        \"token\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('signup Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									"\r",
+									"try {\r",
+									"   pm.collectionVariables.set('user_token', pm.response.json().token) \r",
+									"   console.log( pm.collectionVariables.get('user_token'))\r",
+									"} catch (e) {\r",
+									"    console.log(e)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@nogotochki.ru\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"login Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"token\"],\r",
+									"    \"properties\": {\r",
+									"        \"token\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('signup Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									"\r",
+									"try {\r",
+									"   pm.collectionVariables.set('admin_token', pm.response.json().token) \r",
+									"   console.log( pm.collectionVariables.get('admin_token'))\r",
+									"} catch (e) {\r",
+									"    console.log(e)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@nogotochki.ru\",\r\n    \"password\": \"QWEasd123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('logout Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"    pm.expect(pm.response.json().message).to.equal(\"logout\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/logout/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "service",
+			"item": [
+				{
+					"name": "services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"items\"],\r",
+									"    \"properties\": {\r",
+									"        \"items\": {\"type\": \"array\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('service_get Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/services/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "service_delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('service_delete Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"    pm.expect(pm.response.json().message).to.equal(\"Service removed\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/service/1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"service",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "service_add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"id\", \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\"type\": \"number\"},\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('service_add Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"     pm.expect(pm.response.json().message).to.equal(\"Service added\");\r",
+									"});\r",
+									"\r",
+									"try {\r",
+									"   pm.collectionVariables.set('service_id', pm.response.json().id) \r",
+									"   console.log( pm.collectionVariables.get('service_id'))\r",
+									"} catch (e) {\r",
+									"    console.log(e)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Новая услуга\",\r\n    \"description\": \"новое описание\",\r\n    \"price\": 1234\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/service/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"service",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "service_patch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\"items\"],\r",
+									"    \"properties\": {\r",
+									"        \"items\": {\"type\": \"array\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('service_patch Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"очень новое описание\",\r\n    \"price\": 664564\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/service/{{service_id}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"service",
+								"{{service_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "cart_add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('cart_add Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"     pm.expect(pm.response.json().message).to.equal(\"Service add to card\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cart/{{service_id}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart",
+								"{{service_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart_get",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"items\"],\r",
+									"    \"properties\": {\r",
+									"        \"items\": {\"type\": \"array\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('cart_get Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cart/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart_delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('cart_delete Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"     pm.expect(pm.response.json().message).to.equal(\"Item removed from cart\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cart/{{service_id}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart",
+								"{{service_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"items\"],\r",
+									"    \"properties\": {\r",
+									"        \"items\": {\"type\": \"array\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('order_get Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('responce json', ()=>{\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"logout Correct status\", ()=> {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var scheme = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [ \"order_id\", \"message\"],\r",
+									"    \"properties\": {\r",
+									"        \"message\": {\"type\": \"string\"},\r",
+									"        \"order_id\": {\"type\": \"number\"},\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('cart_add Correct body', function() {\r",
+									"    var isValidScheme = tv4.validate(pm.response.json(), scheme, true, true);\r",
+									"    pm.expect(isValidScheme).to.be.true;\r",
+									"    pm.expect(pm.response.json().message).to.equal(\"Order is processed\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "service_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
